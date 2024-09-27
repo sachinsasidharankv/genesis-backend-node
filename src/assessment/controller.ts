@@ -16,7 +16,7 @@ export class AssessmentController {
     const { context, query } = req.body as any;
     try {
       const { user, questionWithAnswer } = context;
-      const augumentedContext = `student_summary: ${user.summary} question_dict: ${JSON.stringify(questionWithAnswer)}`;
+      const augumentedContext = `student_summary: ${user.summary || ""} question_dict: ${JSON.stringify(questionWithAnswer)}`;
       const { response } = await this.agentService.askAgent({ context: augumentedContext, query });
       return res.status(200).json(response);
     } catch (error) {
