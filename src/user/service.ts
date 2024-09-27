@@ -11,13 +11,24 @@ export class UserService {
   }
   
   async createUser(userData: Partial<User>): Promise<User | undefined> {
-    try {
-      const user = this.repo.create(userData);
-      await this.repo.save(user);
-      return user;
-    } catch(error){
+    const userRepository = appDataSource.getRepository(User);
+    try{
+        // Check if user already exists by phone number
+        let user = await userRepository.findOneBy({ phone: userData.phone });
+        
+        if (user) {
+          // Return existing user
+          console.log('User already exists');
+          return user;
+        }
+        userData.summary = `I want to get rank - ${userData.expectedRank} in ${userData.exam} exam`;
+        user = userRepository.create(userData);
+        await userRepository.save(user);
+        return user;
+    }
+    catch(error){
       console.log(error);
-      return undefined;
+      throw error;
     }
   }
 

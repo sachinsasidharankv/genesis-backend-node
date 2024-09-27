@@ -26,4 +26,7 @@ export class QuestionBank extends BaseEntity {
 
   @Column({type: 'json'})
   questions: Question[];
+
+  @Column({type: 'text'})
+  topic: string;
 }

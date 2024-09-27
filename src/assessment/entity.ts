@@ -30,5 +30,5 @@ export class Assesment extends BaseEntity {
   categorySplit: any;
 
   @Column({type: 'json'})
-  questionAnswers: QuestionsWithAnswers;
+  questionAnswers: QuestionsWithAnswers[];
 }
