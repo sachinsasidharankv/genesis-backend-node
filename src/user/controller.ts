@@ -18,9 +18,9 @@ export class UserController {
   }
 
   async explainTopic(req: Request, res: Response): Promise<any> {
-    const { topic, sub_topic } = req.body as any;
+    const { topic, sub_topic, selected_text } = req.body as any;
   try {
-    const response = await this.userService.explainTopic(topic, sub_topic); 
+    const response = await this.userService.explainTopic(topic, sub_topic, selected_text); 
     console.log('explainTopic', response);
     return res.status(200).json(response);
   } catch (error) {

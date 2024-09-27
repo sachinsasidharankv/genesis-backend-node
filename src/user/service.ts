@@ -42,7 +42,7 @@ export class UserService {
     }
   }
 
-  async explainTopic(topic: string, sub_topic: string): Promise<string | undefined> {
+  async explainTopic(topic: string, sub_topic: string, selected_text: string): Promise<string | undefined> {
     const curatedTopicsRepository = appDataSource.getRepository(CuratedTopics);
     const curatedTopic = await curatedTopicsRepository.findOneBy({ sub_topic });
 
