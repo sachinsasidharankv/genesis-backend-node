@@ -1,6 +1,7 @@
 import { User } from './entity';
 import { appDataSource } from '../data-source';
 import { Repository } from 'typeorm';
+import { CuratedTopics } from './curated.entity';
 
 export class UserService {
 
@@ -39,6 +40,17 @@ export class UserService {
       console.log(error);
       return undefined;
     }
+  }
+
+  async explainTopic(topic: string, sub_topic: string): Promise<string | undefined> {
+    const curatedTopicsRepository = appDataSource.getRepository(CuratedTopics);
+    const curatedTopic = await curatedTopicsRepository.findOneBy({ sub_topic });
+
+    if (!curatedTopic) {
+      throw new Error('Explanation not found');
+    }
+
+    return curatedTopic.explanation;
   }
 
   async updateUserSummary(userId: string, newSummary: string): Promise<User | undefined> {

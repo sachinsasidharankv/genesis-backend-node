@@ -16,4 +16,15 @@ export class UserController {
       return res.status(500).json({ error: error.message });
     }
   }
+
+  async explainTopic(req: Request, res: Response): Promise<any> {
+    const { topic, sub_topic } = req.body as any;
+  try {
+    const response = await this.userService.explainTopic(topic, sub_topic); 
+    console.log('explainTopic', response);
+    return res.status(200).json(response);
+  } catch (error) {
+     return res.status(500).json({ error: error.message });
+    }
+  }
 }
