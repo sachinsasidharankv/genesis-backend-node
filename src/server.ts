@@ -1,16 +1,17 @@
 import express from 'express';
+import { DataSource } from 'typeorm';
+
+import { User } from './user/entity';
 import { globalRouter } from './route';
 import { healthRouter } from './health/route';
-import { DataSource } from 'typeorm';
-import { User } from "./entities/user.entity";
 
 export const appDataSource = new DataSource({
-  port: 3344,
-  database: "template-gen",
+  port: 5432,
+  database: "mars",
   type: "postgres",
   host: "localhost",
-  username: "postgres",
-  password: "5kqbOtx1G04YBjrkcW/3",
+  username: "loc_system",
+  password: "password1234",
   entities: [User],
   synchronize: true
 });

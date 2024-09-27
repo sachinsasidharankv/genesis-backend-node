@@ -17,8 +17,8 @@
       "strictBindCallApply": true,
       "strictNullChecks": true,
       "strictFunctionTypes": true,
-      "strictPropertyInitialization": true,
       "skipLibCheck": true,
+      "strictPropertyInitialization": false,
       "esModuleInterop": true
     }
   }
