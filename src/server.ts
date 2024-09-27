@@ -4,15 +4,16 @@ import { DataSource } from 'typeorm';
 import { User } from './user/entity';
 import { globalRouter } from './route';
 import { healthRouter } from './health/route';
+import { Assesment } from './assessment/entity';
 
 export const appDataSource = new DataSource({
-  port: 5432,
-  database: "mars",
+  port: 3344,
+  database: "template-gen",
   type: "postgres",
   host: "localhost",
-  username: "loc_system",
-  password: "password1234",
-  entities: [User],
+  username: "postgres",
+  password: "5kqbOtx1G04YBjrkcW/3",
+  entities: [User, Assesment],
   synchronize: true
 });
 export class Server {

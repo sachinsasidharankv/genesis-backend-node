@@ -1,14 +1,5 @@
+import { Question } from '../questionBank/entity';
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
-
-export type Question = {
-    time: number;
-    question: string;
-    options: string[];
-    difficulty: string;
-    explanation: string;
-    subtopics: string[];
-    correct_answer: number;
-}
 
 export type Answer = {
     timeTook: number;
@@ -32,12 +23,12 @@ export class Assesment extends BaseEntity {
   @Column('uuid')
   userId: string;
 
+  @Column('text')
+  accuracy: string; 
+ 
+  @Column('json')
+  categorySplit: any;
+
   @Column({type: 'json'})
-  questionsWithAnswers: QuestionsWithAnswers;
-
- @Column('text')
- accuracy: string;
-
- @Column('json')
- categorySplit: any
+  questionAnswers: QuestionsWithAnswers;
 }
