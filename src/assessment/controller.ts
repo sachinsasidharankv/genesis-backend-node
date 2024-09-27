@@ -16,7 +16,7 @@ export class AssessmentController {
     const { context, query } = req.body as any;
     try {
       const { user, questionWithAnswer } = context;
-      const augumentedContext = `student_summary: ${user.summary || ""} question_dict: ${JSON.stringify(questionWithAnswer)}`;
+      const augumentedContext =  user && questionWithAnswer ? `student_summary: ${user.summary || ''} \nquestion_dict: ${JSON.stringify(questionWithAnswer)}` : '';
       const { response } = await this.agentService.askAgent({ context: augumentedContext, query });
       return res.status(200).json(response);
     } catch (error) {
@@ -28,8 +28,8 @@ export class AssessmentController {
     const { context, query } = req.body as any;
   try {
     const { user, question_answers  } = context;
-    const stringifiedContext = `This is Student info ${JSON.stringify(user)} \n This is exam response with answers ${JSON.stringify(question_answers)}`;
-    const {response } = await this.agentService.askAgent({ context: stringifiedContext, query }); 
+    const augumentedContext = `student_summary: ${user.summary || ''} \nexam_results_dict: ${JSON.stringify(question_answers)}`;
+    const {response } = await this.agentService.askAgent({ context: augumentedContext, query }); 
     console.log('responseJson', response.updated_summary);
     if (!!response.updated_summary) {
       this.userService.updateUserSummary(user.id, response.updated_summary);
