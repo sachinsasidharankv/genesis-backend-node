@@ -6,7 +6,7 @@ export type Answer = {
     selected_answer: number;
 }
 
-export type QuestionsWithAnswers = Question & Answer;
+export type QuestionsWithAnswer = Question & Answer;
 
 export type CategorySplit = {
     easy?: string;
@@ -30,5 +30,5 @@ export class Assesment extends BaseEntity {
   categorySplit: any;
 
   @Column({type: 'json'})
-  questionAnswers: QuestionsWithAnswers[];
+  questionAnswers: QuestionsWithAnswer[];
 }
