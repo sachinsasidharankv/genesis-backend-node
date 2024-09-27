@@ -18,7 +18,7 @@ export class User extends BaseEntity {
   @Column({type: 'varchar', length: 255})
   expectedRank: string;
 
-  @Column({type: 'varchar', length: 255})
+  @Column({type: 'varchar', length: 255, nullable: true})
   summary: string | null;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
