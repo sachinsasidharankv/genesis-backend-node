@@ -1,4 +1,5 @@
 import { Request, Response, Router } from 'express';
+import timerPromises from 'timers/promises';
 import { UserService } from '../user/service';
 import { AgentService } from '../agent/service';
 import { QuestionBankService } from '../questionBank/service';
@@ -15,17 +16,18 @@ export class AgentController {
   }
 
   async ask(req: Request, res: Response): Promise<Response> {
-    const { context, optimise, query } = req.body as any;
+    const { context, takeTest, query } = req.body as any;
     try {
-      if (optimise) {
+      if (takeTest) {
         const qb = await this.qbService.getLatestQuestionByTopics(query as string);
+        await timerPromises.setTimeout(10 * 1000)
         return res.status(200).json(qb?.questions);
       }
       const { user } = context;
-      const stringifiedContext = "This is user info" + JSON.stringify(user);
+      const stringifiedContext = "This is student info: " + JSON.stringify(user);
       const { response } = await this.agentService.askAgent({ context: stringifiedContext, query });
-      if (response?.[0].question) {
-        this.qbService.addToBank(user.exam, user.proficiency, response)
+      if (response?.[0]?.question) {
+        this.qbService.addToBank(user.exam, user.proficiency, response);
       }
       return res.status(200).json(response);
     } catch (error) {
