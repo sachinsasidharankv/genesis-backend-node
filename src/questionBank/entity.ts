@@ -12,7 +12,7 @@ export type Question = {
     correct_answer: number;
 }
 
-@Entity('user')
+@Entity('question_bank')
 export class QuestionBank extends BaseEntity {
 
   @PrimaryGeneratedColumn('uuid')
