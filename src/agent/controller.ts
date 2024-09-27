@@ -14,17 +14,23 @@ export class AgentController {
     this.qbService = new QuestionBankService();
   }
 
-  async ask(req: Request, res: Response): Promise<Response> {
-    try {
+  async ask(req: Request, res: Response): Promise<any> {
       const { context, query } = req.body as any;
+    try {
+      const { user } = context;
+      const stringifiedContext = "This is user info" + JSON.stringify(user);
     //   const user = await this.userService.getUserById(userId);
     //   if (!user) throw new Error('User not found');
-      const agentResponse = await this.agentService.askAgent({ context, query });
-    //   if (agentResponse?.[0].questions) {
-    //     this.qbService.addToBank(user.exam, user.proficiency, agentResponse)
-    //   }
+      const agentResponse = await this.agentService.askAgentTimed({ context: stringifiedContext, query }, 30 * 1000);
+      if (agentResponse?.[0].questions) {
+        this.qbService.addToBank(user.exam, user.proficiency, agentResponse)
+      }
       return res.status(200).json(agentResponse);
     } catch (error) {
+        if (error.message === 'Timeout exceeded') {
+            const qb = await this.qbService.getLatestQuestionByTopics(query as string);
+            return qb?.questions;
+        }
       return res.status(500).json({ error: error.message });
     }
   }
