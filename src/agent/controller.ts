@@ -32,4 +32,27 @@ export class AgentController {
       return res.status(500).json({ error: error.message });
     }
   }
+
+  async submit(req: Request, res: Response): Promise<any> {
+    const { context, query } = req.body as any;
+  try {
+    const { user, question_answers  } = context;
+    const stringifiedContext = `This is Student info ${JSON.stringify(user)} \n This is exam response with answers ${JSON.stringify(question_answers)}`;
+  //   const user = await this.userService.getUserById(userId);
+  //   if (!user) throw new Error('User not found');
+    const {response } = await this.agentService.askAgent({ context: stringifiedContext, query });
+    const responseJson = JSON.parse(response);  
+    console.log('responseJson', responseJson.updated_summary);
+    if (!!responseJson.updated_summary) {
+      this.userService.updateUserSummary(user.id, responseJson.updated_summary);
+    }
+    return res.status(200).json(response);
+  } catch (error) {
+      if (error.message === 'Timeout exceeded') {
+          const qb = await this.qbService.getLatestQuestionByTopics(query as string);
+          return qb?.questions;
+      }
+    return res.status(500).json({ error: error.message });
+  }
+}
 }

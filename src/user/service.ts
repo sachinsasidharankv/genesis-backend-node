@@ -21,7 +21,7 @@ export class UserService {
           console.log('User already exists');
           return user;
         }
-        userData.summary = `I want to get rank - ${userData.expectedRank} in ${userData.exam} exam`;
+        // userData.summary = `I want to get rank - ${userData.expectedRank} in ${userData.exam} exam`;
         user = userRepository.create(userData);
         await userRepository.save(user);
         return user;
@@ -38,6 +38,29 @@ export class UserService {
     } catch(error){
       console.log(error);
       return undefined;
+    }
+  }
+
+  async updateUserSummary(userId: string, newSummary: string): Promise<User | undefined> {
+    const userRepository = appDataSource.getRepository(User);
+    try {
+      // Find the user by ID
+      let user = await userRepository.findOneBy({ id: userId });
+      
+      if (!user) {
+        console.log('User not found');
+        return undefined;
+      }
+  
+      // Update the summary field
+      user.summary = newSummary;
+  
+      // Save the updated user
+      await userRepository.save(user);
+      return user;
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
   }
 }

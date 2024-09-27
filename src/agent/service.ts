@@ -20,6 +20,7 @@ export class AgentService {
 
     async askAgent(query: Query, timeout?: number){
         try {
+            console.log('askAgent Query:', JSON.stringify(query));
             const response = await this.axiosClient.post('/ask-copilot', query);
             return response.data;
         } catch (error) {
