@@ -7,7 +7,6 @@ export class AssessmentController {
     private readonly agentService: AgentService;
 
   constructor() {
-
     this.userService = new UserService();
     this.agentService = new AgentService();
   }
@@ -16,8 +15,11 @@ export class AssessmentController {
     const { context, query } = req.body as any;
     try {
       const { user, questionWithAnswer } = context;
-      const augumentedContext =  user && questionWithAnswer ? `student_summary: ${user.summary || ''} \nquestion_dict: ${JSON.stringify(questionWithAnswer)}` : '';
-      const { response } = await this.agentService.askAgent({ context: augumentedContext, query });
+      const enrichedContext =  user && questionWithAnswer ? {
+        "student_summary": user.summary || '',
+        "question_dict": JSON.stringify(questionWithAnswer)
+      }: {};
+      const { response } = await this.agentService.askChain({ context: enrichedContext, chain: 'GUIDANCE', query });
       return res.status(200).json(response);
     } catch (error) {
       return res.status(500).json({ error: error.message });
@@ -28,8 +30,11 @@ export class AssessmentController {
     const { context, query } = req.body as any;
   try {
     const { user, question_answers  } = context;
-    const augumentedContext = `student_summary: ${user.summary || ''} \nexam_results_dict: ${JSON.stringify(question_answers)}`;
-    const {response } = await this.agentService.askAgent({ context: augumentedContext, query }); 
+    const enrichedContext = {
+        "student_summary": user.summary || '',
+        "exam_results_dict": question_answers
+    };
+    const {response } = await this.agentService.askChain({ context: enrichedContext, chain: 'FEEDBACK', query }); 
     console.log('responseJson', response.updated_summary);
     if (!!response.updated_summary) {
       this.userService.updateUserSummary(user.id, response.updated_summary);

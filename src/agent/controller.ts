@@ -22,8 +22,7 @@ export class AgentController {
         return res.status(200).json(qb?.questions);
       }
       const { user } = context;
-      const stringifiedContext = "This is student info: " + JSON.stringify(user);
-      const { response } = await this.agentService.askAgent({ context: stringifiedContext, query });
+      const { response } = await this.agentService.askAgent({ context: user, chain:'AGENT', query });
       if (response?.[0]?.question) {
         this.qbService.addToBank(user.exam, user.proficiency, response);
       }
