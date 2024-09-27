@@ -1,9 +1,9 @@
 import express from 'express';
-import { globalRouter } from './route';
-import { healthRouter } from './health/route';
-import { userRouter } from './user/route';
-import { appDataSource } from './data-source';
 import cors  = require("cors");
+import { globalRouter } from './route';
+import { userRouter } from './user/route';
+import { healthRouter } from './health/route';
+import { appDataSource } from './data-source';
 
 export class Server {
   private readonly port: string | number;
