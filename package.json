@@ -4,7 +4,7 @@
   "description": "A copilot for competive exams",
   "scripts": {
     "build": "rm -r dist & tsc",
-    "start": "node dist/app.js",
+    "start": "npm run build && node dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Genesis",

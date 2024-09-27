@@ -1,5 +1,6 @@
 import express from 'express';
 import { globalRouter } from './route';
+import { healthRouter } from './health/route';
 
 export class Server {
   private readonly port: string | number;
@@ -17,6 +18,7 @@ export class Server {
 
   public initRoutes() {
     this.server.use('/api', globalRouter);
+    this.server.use('/health', healthRouter);
     return this;
   }
 
