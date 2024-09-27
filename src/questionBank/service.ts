@@ -17,6 +17,6 @@ export class QuestionBankService {
 
     async getLatestQuestionByTopics(query: string) {
         const topics = query.split(' ');
-        return this.repo.createQueryBuilder('question_bank').where('question.topic ILIKE ANY(:topics)', { topics: topics.map(topic => `%${topic}%`) }).getOne();
+        return this.repo.createQueryBuilder('question_bank').where('question_bank.topic ILIKE ANY(:topics)', { topics: topics.map(topic => `%${topic}%`) }).getOne();
     }
 }

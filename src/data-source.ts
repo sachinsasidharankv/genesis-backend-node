@@ -11,5 +11,5 @@ export const appDataSource = new DataSource({
     username: "postgres",
     password: "5kqbOtx1G04YBjrkcW/3",
     entities: [User, Assesment, QuestionBank],
-    synchronize: true
+    // synchronize: true
   });

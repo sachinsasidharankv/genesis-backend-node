@@ -29,7 +29,7 @@ export class Server {
 
   async start() {
     await appDataSource.initialize();
-    await appDataSource.synchronize(true);
+    // await appDataSource.synchronize(true);
     this.server.listen(this.port, () => {
       console.log(`Server is running on port ${this.port}`);
     });
